@@ -31,28 +31,6 @@ day = timedelta(days=1.)
 
 # Satellite specific information
 
-satellite_files = {
-    'noaa-06': ['NSS.GHRR.NA.D80182.S0531.E0724.B0523940.WI.level2.hdf', 'NSS.GHRR.NA.D82214.S2135.E2304.B1610506.WI.level2.hdf'],
-    'noaa-07': ['NSS.GHRR.NC.D81236.S0013.E0207.B0086970.WI.level2.hdf', 'NSS.GHRR.NC.D85032.S2221.E0009.B1863132.GC.level2.hdf'],
-    'noaa-08': ['NSS.GHRR.NE.D83124.S1909.E2046.B0052829.GC.level2.hdf', 'NSS.GHRR.NE.D85287.S0326.E0511.B1322829.GC.level2.hdf'],
-    'noaa-09': ['NSS.GHRR.NF.D85056.S0013.E0154.B0105253.GC.level2.hdf', 'NSS.GHRR.NF.D88311.S2319.E0107.B2011011.GC.level2.hdf'],
-    'noaa-10': ['NSS.GHRR.NG.D87320.S2321.E0115.B0604748.GC.level2.hdf', 'NSS.GHRR.NG.D90259.S2346.E0139.B2076668.GC.level2.hdf'],
-    'noaa-11': ['NSS.GHRR.NH.D88313.S0016.E0210.B0062930.WI.level2.hdf', 'NSS.GHRR.NH.D94243.S2334.E0122.B3059293.GC.level2.hdf'],
-    'noaa-12': ['NSS.GHRR.ND.D91259.S0017.E0211.B0176668.GC.level2.hdf', 'NSS.GHRR.ND.D98348.S2043.E2226.B3939697.WI.level2.hdf'],
-    'noaa-14': ['NSS.GHRR.NJ.D00001.S0001.E0121.B2578687.GC.level2.hdf', 'NSS.GHRR.NJ.D99365.S2205.E2359.B2578586.GC.level2.hdf'],
-    'noaa-15': ['NSS.GHRR.NK.D00001.S0001.E0152.B0849596.GC.level2.hdf', 'NSS.GHRR.NK.D99365.S2220.E2359.B0849494.WI.level2.hdf'],
-    'noaa-16': ['NSS.GHRR.NL.D01078.S2259.E0047.B0253233.GC.level2.hdf', 'NSS.GHRR.NL.D06200.S2248.E0033.B3002122.GC.level2.hdf'],
-    'noaa-17': ['NSS.GHRR.NM.D02235.S2229.E0017.B0085657.GC.level2.hdf', 'NSS.GHRR.NM.D09010.S2325.E0055.B3403839.WI.level2.hdf'],
-    'noaa-18': ['NSS.GHRR.NN.D05200.S0113.E0308.B0084041.WI.level2.hdf', 'NSS.GHRR.NN.D17365.S2218.E2359.B6501718.WI.level2.hdf'],
-    'noaa-19': ['NSS.GHRR.NP.D09108.S2301.E0050.B0100809.GC.level2.hdf', 'NSS.GHRR.NP.D17365.S2238.E2359.B4585757.GC.level2.hdf'],
-    'metop-a': ['NSS.GHRR.M2.D07179.S2314.E0058.B0358485.SV.level2.hdf', 'NSS.GHRR.M2.D17365.S2241.E0024.B5812425.SV.level2.hdf'],
-    'metop-b': ['NSS.GHRR.M1.D13140.S0029.E0127.B0347172.SV.level2.hdf', 'NSS.GHRR.M1.D15365.S2307.E0004.B1705253.SV.level2.hdf']
-}
-
-satellite_dt = {}                                                                                                                            
-for sat in satellite_files.keys():
-    satellite_dt[sat] = [datetime.strptime(satfile.split('.')[3],'D%y%j') for satfile in satellite_files[sat]]
-
 satellite = 'noaa-19'
 #granule = datetime(2015, 4, 17, 0, 20)
 #intervals = [TimeInterval(granule, granule + wedge - wedge)]
