@@ -18,7 +18,7 @@ import flo
 from flo.computation import Computation
 from flo.builder import WorkflowNotReady
 from timeutil import TimeInterval, datetime, timedelta
-from flo.util import augmented_env, symlink_inputs_to_working_dir
+from flo.util import augmented_env
 from subprocess import CalledProcessError
 
 import sipsprod

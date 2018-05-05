@@ -31,7 +31,7 @@ wedge = timedelta(seconds=1.)
 
 # Satellite specific information
 
-#granule = datetime(2017, 1, 1, 0, 32)
+#granule = datetime(2015, 2, 1, 0, 15)
 #interval = TimeInterval(granule, granule+timedelta(seconds=0))
 
 def setup_computation(satellite):
@@ -87,7 +87,7 @@ def local_execute_example(interval, satellite, hirs2nc_delivery_id, skip_prepare
 
 
 def print_contexts(interval, satellite, hirs2nc_delivery_id, verbosity=2):
-    
+
     setup_logging(verbosity)
 
     comp = setup_computation(satellite)
@@ -99,5 +99,3 @@ def print_contexts(interval, satellite, hirs2nc_delivery_id, verbosity=2):
 #satellite_choices = ['noaa-06', 'noaa-07', 'noaa-08', 'noaa-09', 'noaa-10', 'noaa-11',
                     #'noaa-12', 'noaa-14', 'noaa-15', 'noaa-16', 'noaa-17', 'noaa-18',
                     #'noaa-19', 'metop-a', 'metop-b']
-
-# local_execute_example(granule, satellite, hirs2nc_delivery_id)
