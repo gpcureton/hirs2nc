@@ -49,6 +49,33 @@ class HIRS2NC(Computation):
     parameters = ['granule', 'satellite', 'hirs2nc_delivery_id']
     outputs = ['out']
 
+    def find_contexts(self, time_interval, satellite, hirs2nc_delivery_id):
+
+        global delta_catalog
+
+        LOG.debug('delta_catalog.collection = {}'.format(delta_catalog.collection))
+        LOG.debug('delta_catalog.input_data = {}'.format(delta_catalog.input_data))
+
+        files = delta_catalog.files('hirs', satellite, 'HIR1B', time_interval)
+
+        return [{'granule': file.data_interval.left,
+                 'satellite': satellite,
+                 'hirs2nc_delivery_id': hirs2nc_delivery_id}
+                for file in files
+                if file.data_interval.left >= time_interval.left]
+
+    def satellite_version(self, satellite, granule):
+
+        # 4 for everything post April 28, 2005
+        if granule > datetime(2005, 4, 28):
+            return 4
+        # 3 for noaa-15,16,17 until April 28, 2005
+        elif satellite in ['noaa-15', 'noaa-16', 'noaa-17']:
+            return 3
+        # 2 for noaa <= 14
+        else:
+            return 2
+
     @reraise_as(WorkflowNotReady, FileNotFound, prefix='NSS.HIRX')
     def build_task(self, context, task):
         '''
@@ -61,29 +88,12 @@ class HIRS2NC(Computation):
         file_type = 'HIR1B'
         granule = context['granule']
 
-        task.input('HIR1B', delta_catalog.file(sensor, satellite, file_type, granule))
+        hirs_file = delta_catalog.file(sensor, satellite, file_type, granule)
 
-    def local_prepare_env(self, dist_root, inputs, context):
-        LOG.debug("Running local_prepare_env()...")
+        LOG.debug('data_interval = {}'.format(hirs_file.data_interval))
 
-        LOG.debug("package_root = {}".format(self.package_root))
-        LOG.debug("dist_root = {}".format(dist_root))
-
-        env = dict(os.environ)
-        envroot = pjoin(dist_root, 'env')
-
-        LOG.debug("envroot = {}".format(envroot))
-
-        env['LD_LIBRARY_PATH'] = ':'.join([pjoin(envroot, 'lib'),
-                                           pjoin(dist_root, 'lib')])
-        env['PATH'] = ':'.join([pjoin(envroot, 'bin'),
-                                pjoin(dist_root, 'bin'),
-                                '/usr/bin:/bin'])
-
-        LOG.debug("env['PATH'] = \n\t{}".format(env['PATH'].replace(':','\n\t')))
-        LOG.debug("env['LD_LIBRARY_PATH'] = \n\t{}".format(env['LD_LIBRARY_PATH'].replace(':','\n\t')))
-
-        return env
+        task.input('HIR1B', hirs_file)
+        task.option('data_interval', hirs_file.data_interval)
 
     @reraise_as(WorkflowNotReady, FileNotFound, prefix='NSS.HIRX')
     def run_task(self, inputs, context):
@@ -123,6 +133,7 @@ class HIRS2NC(Computation):
         LOG.debug("Input file = {}".format(input_file))
         LOG.debug("Output file = {}".format(output_file))
 
+
         # What are our inputs?
         for input in inputs.keys():
             inputs_dir = dirname(inputs[input])
@@ -150,31 +161,8 @@ class HIRS2NC(Computation):
         # "tmp******", and that the output path is to be prepended, so return the basename.
         output = basename('{}.nc'.format(inputs['HIR1B']))
 
-        return {'out': nc_compress(output)}
+        data_interval = context['data_interval']
+        extra_attrs = {'begin_time': data_interval.left,
+                       'end_time': data_interval.right}
 
-    def find_contexts(self, time_interval, satellite, hirs2nc_delivery_id):
-
-        global delta_catalog
-
-        LOG.debug('delta_catalog.collection = {}'.format(delta_catalog.collection))
-        LOG.debug('delta_catalog.input_data = {}'.format(delta_catalog.input_data))
-
-        files = delta_catalog.files('hirs', satellite, 'HIR1B', time_interval)
-
-        return [{'granule': file.data_interval.left,
-                 'satellite': satellite,
-                 'hirs2nc_delivery_id': hirs2nc_delivery_id}
-                for file in files
-                if file.data_interval.left >= time_interval.left]
-
-    def satellite_version(self, satellite, granule):
-
-        # 4 for everything post April 28, 2005
-        if granule > datetime(2005, 4, 28):
-            return 4
-        # 3 for noaa-15,16,17 until April 28, 2005
-        elif satellite in ['noaa-15', 'noaa-16', 'noaa-17']:
-            return 3
-        # 2 for noaa <= 14
-        else:
-            return 2
+        return {'out': {'file': nc_compress(output), 'extra_attrs': extra_attrs}}

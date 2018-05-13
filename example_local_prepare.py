@@ -91,7 +91,7 @@ def print_contexts(interval, satellite, hirs2nc_delivery_id, verbosity=2):
     setup_logging(verbosity)
 
     comp = setup_computation(satellite)
-    
+
     contexts = comp.find_contexts(interval, satellite, hirs2nc_delivery_id)
     for context in contexts:
         LOG.info(context)
