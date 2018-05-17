@@ -31,24 +31,24 @@ day = timedelta(days=1.)
 
 # Satellite specific information
 
-satellite = 'noaa-19'
+#satellite = 'noaa-19'
 #granule = datetime(2015, 4, 17, 0, 20)
 #intervals = [TimeInterval(granule, granule + wedge - wedge)]
 # NSS.GHRR.NP.D09108.S2301.E0050.B0100809.GC.level2.hdf --> NSS.GHRR.NP.D17365.S2238.E2359.B4585757.GC.level2.hdf
 # datetime(2009, 4, 18, 0, 0) --> datetime(2017, 12, 31, 0, 0)
-intervals = []
+#intervals = []
 #for years in range(2009, 2018):
-for years in range(2014, 2018):
-    intervals += [TimeInterval(datetime(years,month,1), datetime(years,month,calendar.monthrange(years,month)[1])+day-wedge) for month in range(1,13) ]
+    #intervals += [TimeInterval(datetime(years,month,1), datetime(years,month,calendar.monthrange(years,month)[1])+day-wedge) for month in range(1,13) ]
 
-#satellite = 'metop-b'
+satellite = 'metop-b'
 #granule = datetime(2015, 1, 1, 0)
 #intervals = [TimeInterval(granule, granule+2*day-wedge)]
 # NSS.GHRR.M1.D13140.S0029.E0127.B0347172.SV.level2.hdf --> NSS.GHRR.M1.D15365.S2307.E0004.B1705253.SV.level2.hdf
 # datetime(2013, 5, 20, 0, 0) --> datetime(2015, 12, 31, 0, 0)
-#intervals = []
+intervals = []
 #for years in range(2013, 2016):
-    #intervals += [TimeInterval(datetime(years,month,1), datetime(years,month,calendar.monthrange(years,month)[1])+day-wedge) for month in range(1,13) ]
+for years in range(2016, 2018):
+    intervals += [TimeInterval(datetime(years,month,1), datetime(years,month,calendar.monthrange(years,month)[1])+day-wedge) for month in range(1,13) ]
 
 satellite_choices = ['noaa-06', 'noaa-07', 'noaa-08', 'noaa-09', 'noaa-10', 'noaa-11',
                     'noaa-12', 'noaa-14', 'noaa-15', 'noaa-16', 'noaa-17', 'noaa-18',
