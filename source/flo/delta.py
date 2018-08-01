@@ -3,7 +3,6 @@ import logging
 import traceback
 from collections import namedtuple
 
-#from flo.ingest import IngestFileMissing
 from flo.builder import WorkflowNotReady
 from timeutil import TimeInterval, datetime, timedelta
 
@@ -122,26 +121,6 @@ class DeltaCatalog(object):
 
         # Remove any duplicates from the file list.
         return self.remove_duplicates(files)
-
-
-    def remove_duplicates_old(self, files):
-
-        prune_files = {}
-
-        for file in files:
-            if file.data_interval.left in prune_files:
-                # Found Duplicate
-                old_duration = prune_files[file.data_interval.left].data_interval.duration
-                new_duration = file.data_interval.duration
-
-                # Put new file in that position if duration is longer
-                if new_duration > old_duration:
-                    prune_files[file.data_interval.left] = file
-            else:
-                prune_files[file.data_interval.left] = file
-
-        return prune_files.values()
-
 
     def remove_duplicates(self, files):
 
