@@ -13,13 +13,13 @@ from os.path import basename, dirname, curdir, abspath, isdir, isfile, exists, s
 import sys
 import logging
 import traceback
+from subprocess import CalledProcessError
 
 import flo
 from flo.computation import Computation
 from flo.builder import WorkflowNotReady
 from timeutil import TimeInterval, datetime, timedelta
 from flo.util import augmented_env
-from subprocess import CalledProcessError
 
 import sipsprod
 from glutil import (
