@@ -1,0 +1,1 @@
+This project contains the python code required to run the pyhirs package (https://gitlab.ssec.wisc.edu/HIRS/pyhirs) in the Atmosphere-SIPS.
