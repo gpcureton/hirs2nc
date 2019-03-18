@@ -60,7 +60,9 @@ class DeltaCatalog(object):
                 if name not in self.file_data[sensor][sat][file_type]:
 
                     if end_time < begin_time:
-                        print name
+                        LOG.warning("{}: End time {} is before begin time {}, adding a day.".format(
+                        name, end_time, begin_time))
+                        end_time += timedelta(days=1)
 
                     self.file_data[sensor][sat][file_type][name] = {
                         'data_interval': TimeInterval(begin_time, end_time),
@@ -111,12 +113,10 @@ class DeltaCatalog(object):
             #print('file_search[{}] = {}'.format(fs_keys[0],file_search[fs_keys[0]]))
             #print('file_search = {}'.format(file_search))
 
-        #for key in fs_keys:
-            #print('{}'.format(file_search[key]))
 
         # Create a list of all of the files which overlap the desired time interval.
         files = [self.file_info(file_search[name], file_type)
-                 for name in file_search.keys()
+                 for name in fs_keys
                  if target_interval.overlaps(file_search[name]['data_interval'])]
 
         # Remove any duplicates from the file list.
@@ -166,8 +166,8 @@ class DeltaCatalog(object):
     def file_info(self, line, file_type):
 
         LOG.debug('line = {}'.format(line))
-        LOG.debug('file_type = {}'.format(file_type))
-        LOG.debug('self.collection["{}"] = {}'.format(file_type, self.collection[file_type]))
+        #LOG.debug('file_type = {}'.format(file_type))
+        #LOG.debug('self.collection["{}"] = {}'.format(file_type, self.collection[file_type]))
         return DeltaFile(name=line['name'],
                          data_interval=line['data_interval'],
                          collection=self.collection[file_type],

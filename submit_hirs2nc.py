@@ -61,9 +61,9 @@ def setup_computation(satellite):
                   'PTMSX': '/mnt/software/flo/hirs_l1b_datalists/{0:}/PTMSX_{0:}_latest'.format(satellite)}
 
     # Data locations
-    collection = {'HIR1B': 'ILIAD',
+    collection = {'HIR1B': 'ARCDATA',
                   'CFSR': 'DELTA',
-                  'PTMSX': 'FJORD'}
+                  'PTMSX': 'APOLLO'}
 
     input_sources = {'collection':collection, 'input_data':input_data}
 

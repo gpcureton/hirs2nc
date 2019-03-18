@@ -36,15 +36,14 @@ wedge = timedelta(seconds=1.)
 
 def setup_computation(satellite):
 
-    #satellite = 'metop-b'
     input_data = {'HIR1B': '/mnt/software/flo/hirs_l1b_datalists/{0:}/HIR1B_{0:}_latest'.format(satellite),
                   'CFSR':  '/mnt/cephfs_data/geoffc/hirs_data_lists/CFSR.out',
                   'PTMSX': '/mnt/software/flo/hirs_l1b_datalists/{0:}/PTMSX_{0:}_latest'.format(satellite)}
 
     # Data locations
-    collection = {'HIR1B': 'ILIAD',
+    collection = {'HIR1B': 'ARCDATA',
                   'CFSR': 'DELTA',
-                  'PTMSX': 'FJORD'}
+                  'PTMSX': 'APOLLO'}
 
     input_sources = {'collection':collection, 'input_data':input_data}
 
